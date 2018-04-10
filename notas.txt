@@ -7,3 +7,5 @@
 -> O React não manipula o DOM da pagina, ele interage com o Virtual DOM. Ele não altera diretamente a pagina, faz as alterações em memoria e renderiza na pagina. Ou seja, ele pega tudo o que tem no DOM e no Virtual DOM, faz uma comparação e adiciona a diferença.
 
 -> Componentes react: 
+
+-> BEM CSS: estudar a metodologia. Olhar o post do Mario no Alura.
