@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './cabecalho.css'
-import Menu from '../Menu'
-
+// import './navMenu.css'
 
 class Cabecalho extends Component {
     render() {
@@ -11,11 +10,11 @@ class Cabecalho extends Component {
                     <h1 className="cabecalho__logo">
                         <a href="">Twitelum</a>
                     </h1>
-                    { this.props.children } {/* insere qualquer filho dentro */}
+                    { this.props.children }
                 </div>
             </header>
         )
     }
 }
 
-export default Cabecalho;
+export default Cabecalho
