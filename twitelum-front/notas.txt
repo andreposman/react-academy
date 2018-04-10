@@ -1,0 +1,32 @@
+/****************************************************************************************/
+    Notas:
+        - Surge.sh: sobe sites estaticos
+        - BEM CSS: metodologia de CSS
+        - Standard.JS: boas praticas adotadas por grandes empresas.
+        - 
+
+/****************************************************************************************/
+
+- codigo acoplado: codigo que chama muitas funções ao mesmo tempo.
+
+- index.js: entry point da aplicação;
+
+- id="root": todo o codigo react da pagina vai para dentro da div root.
+
+- O React não manipula o DOM da pagina, ele interage com o Virtual DOM. Ele não altera diretamente a pagina, faz as alterações em memoria e renderiza na pagina. Ou seja, ele pega tudo o que tem no DOM e no Virtual DOM, faz uma comparação e adiciona a diferença.
+
+- Componentes react: 
+
+- BEM CSS: estudar a metodologia. Olhar o post do Mario no Alura.
+
+- Componente React deve ter:
+ -> Import do React
+ -> Estilo
+ -> Criar classe e exportar
+ -> render com return()
+
+- O babel precisa do react importado para transformar o JSX.
+
+- O React precisa de um elemento para envolver as tags dos Componentes ( <Fragments></Fragments>) ao inves de mil divs.
+
+- super(): sync do this com as propriedades que estão vindo do Componente.
