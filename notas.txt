@@ -9,3 +9,5 @@
 -> Componentes react: 
 
 -> BEM CSS: estudar a metodologia. Olhar o post do Mario no Alura.
+
+teste
