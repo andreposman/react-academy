@@ -69,6 +69,7 @@ class App extends Component {
                                     <Tweet
                                         texto={tweetInfo}
                                         key={tweetInfo + index} />
+                                /*key = 'id' de mapeamento do array*/
                                 )}
                             </div>
                         </Widget>

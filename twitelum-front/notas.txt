@@ -3,7 +3,7 @@
         - Surge.sh: sobe sites estaticos
         - BEM CSS: metodologia de CSS
         - Standard.JS: boas praticas adotadas por grandes empresas.
-        - Anjana Vakil: Learning Functional Programming - JSConf
+        - Anjana Vakil: Learning Functional Programming - JSConf    
 
 /****************************************************************************************/
 
