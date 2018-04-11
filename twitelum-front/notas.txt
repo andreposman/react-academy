@@ -3,7 +3,7 @@
         - Surge.sh: sobe sites estaticos
         - BEM CSS: metodologia de CSS
         - Standard.JS: boas praticas adotadas por grandes empresas.
-        - 
+        - Anjana Vakil: Learning Functional Programming - JSConf
 
 /****************************************************************************************/
 
@@ -30,3 +30,9 @@
 - O React precisa de um elemento para envolver as tags dos Componentes ( <Fragments></Fragments>) ao inves de mil divs.
 
 - super(): sync do this com as propriedades que estão vindo do Componente.
+
+- Evento Sintético: se fosse no HTML seria o onclick naquele elemento, no sintético ele insere na pag. da forma mais performatica possivel (delegate).
+
+- ... : joga tudo o que tinha no array antigo no array novo
+
+- forEach: diferente do map() o forEach nunca tem um return
