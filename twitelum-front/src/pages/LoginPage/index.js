@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Widget from "../../components/Widget";
 import "./loginPage.css";
+import Swal from "sweetalert2";
 
 class LoginPage extends Component {
   // this.fazLogin = this.fazLogin.bind(this)
 
   fazLogin = e => {
     e.preventDefault();
-    const login = this.inputLogin.value;
-    const senha = this.inputSenha.value;
+    // const login = this.inputLogin.value;
+    // const senha = this.inputSenha.value;
 
     const dadosUsuario = {
       login: this.inputLogin.value,
@@ -26,17 +27,18 @@ class LoginPage extends Component {
         return respostaServidor.json();
       })
       .then(respostaPronta => {
-          localStorage.setItem("TOKEN", respostaPronta.token);
-          const segredo = localStorage.getItem('TOKEN')
-          console.log(segredo);
-        this.props.history.push('/')
+        localStorage.setItem("TOKEN", respostaPronta.token);
+        const segredo = localStorage.getItem("TOKEN");
+        console.log(segredo);
+        this.props.history.push("/");
       })
       .catch(erro => {
         erro.json().then(erro => {
-            console.log(erro)
+          console.log(erro);
+          // console.log(erro.message);
+          Swal(erro.code, erro.message, "error");
         });
-        
-    });
+      });
   };
 
   render() {

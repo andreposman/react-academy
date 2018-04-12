@@ -4,6 +4,8 @@
         - BEM CSS: metodologia de CSS
         - Standard.JS: boas praticas adotadas por grandes empresas.
         - Anjana Vakil: Learning Functional Programming - JSConf    
+        - Non-React Libraries in a React Setup & Rethinking Native App Development
+
 
 /****************************************************************************************/
 
