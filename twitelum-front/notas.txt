@@ -36,3 +36,9 @@
 - ... : joga tudo o que tinha no array antigo no array novo
 
 - forEach: diferente do map() o forEach nunca tem um return
+
+- react-router-dom: BrowserRouter, Switch, Route. Modulos para roteamento de url
+
+- Class Fields: para fazer Bind.
+
+- Não fazer manipulação diretamente no DOM, usar Refs ( quando não tem dependencias ex: contagem de char)
