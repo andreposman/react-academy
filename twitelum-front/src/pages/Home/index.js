@@ -18,6 +18,19 @@ class App extends Component {
     this.adicionaTweet = this.adicionaTweet.bind(this);
   }
 
+  componentDidMount() {
+	//salvar o usuario no local storage e mudar no nav.
+	console.log("DidMount");
+    fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`)
+      .then(respostaServidor => respostaServidor.json())
+      .then(tweetsServidor => {
+        console.log(tweetsServidor);
+        this.setState({
+          tweets: tweetsServidor
+        });
+      });
+  }
+
   adicionaTweet(e) {
     e.preventDefault();
     const novoTweet = this.state.novoTweet;
@@ -33,7 +46,8 @@ class App extends Component {
         .then(tweetProntoServidor => {
           console.log(tweetProntoServidor);
           this.setState({
-            tweets: [tweetProntoServidor, ...this.state.tweets]
+			tweets: [tweetProntoServidor, ...this.state.tweets],
+			novoTweet: ""
           });
         });
     }
@@ -84,10 +98,16 @@ class App extends Component {
           <Dashboard posicao="centro">
             <Widget>
               <div className="tweetsArea">
-                {this.state.tweets.length === 0 ? "Escreva alguma coisa..." : ''}
+                {this.state.tweets.length === 0
+                  ? "Escreva alguma coisa..."
+                  : ""}
                 {this.state.tweets.map(
                   (tweetInfo, index) => (
-                    <Tweet texto={tweetInfo.conteudo} key={tweetInfo + index} tweetInfo={tweetInfo}/>
+                    <Tweet
+                      texto={tweetInfo.conteudo}
+                      key={tweetInfo + index}
+                      tweetInfo={tweetInfo}
+                    />
                   )
                   /*key = 'id' de mapeamento do array*/
                 )}

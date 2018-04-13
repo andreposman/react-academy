@@ -44,3 +44,9 @@
 - Class Fields: para fazer Bind.
 
 - Não fazer manipulação diretamente no DOM, usar Refs ( quando não tem dependencias ex: contagem de char)
+
+- Life Cycle do Componente
+
+- Má pratica usar o construtor para fazer funcionalidades, no maximo a definição de atributos ou configurações. Usar o componentDidMount() por exemplo.
+
+- handler: metodo 
