@@ -87,7 +87,7 @@ class App extends Component {
                 {this.state.tweets.length === 0 ? "Escreva alguma coisa..." : ''}
                 {this.state.tweets.map(
                   (tweetInfo, index) => (
-                    <Tweet texto={tweetInfo.conteudo} key={tweetInfo + index} />
+                    <Tweet texto={tweetInfo.conteudo} key={tweetInfo + index} tweetInfo={tweetInfo}/>
                   )
                   /*key = 'id' de mapeamento do array*/
                 )}
