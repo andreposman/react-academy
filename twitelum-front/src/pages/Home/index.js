@@ -21,10 +21,22 @@ class App extends Component {
   adicionaTweet(e) {
     e.preventDefault();
     const novoTweet = this.state.novoTweet;
-
-    this.setState({
-      tweets: [novoTweet, ...this.state.tweets]
-    });
+    const token = localStorage.getItem("TOKEN");
+    if (novoTweet) {
+      fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${token}`, {
+        method: "POST",
+        body: JSON.stringify({ conteudo: novoTweet })
+      })
+        .then(respostaServidor => {
+          return respostaServidor.json();
+        })
+        .then(tweetProntoServidor => {
+          console.log(tweetProntoServidor);
+          this.setState({
+            tweets: [tweetProntoServidor, ...this.state.tweets]
+          });
+        });
+    }
   }
 
   render() {
@@ -72,10 +84,10 @@ class App extends Component {
           <Dashboard posicao="centro">
             <Widget>
               <div className="tweetsArea">
-              {this.state.tweets === '' && 'Escreva algum tweet'}
+                {this.state.tweets.length === 0 ? "Escreva alguma coisa..." : ''}
                 {this.state.tweets.map(
                   (tweetInfo, index) => (
-                    <Tweet texto={tweetInfo} key={tweetInfo + index} />
+                    <Tweet texto={tweetInfo.conteudo} key={tweetInfo + index} />
                   )
                   /*key = 'id' de mapeamento do array*/
                 )}
