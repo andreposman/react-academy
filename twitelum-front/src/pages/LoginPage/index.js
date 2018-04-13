@@ -31,6 +31,7 @@ class LoginPage extends Component {
         const segredo = localStorage.getItem("TOKEN");
         console.log(segredo);
         this.props.history.push("/");
+        localStorage.setItem("USUARIO", dadosUsuario.login);
       })
       .catch(erro => {
         erro.json().then(erro => {

@@ -7,9 +7,8 @@ import TrendsArea from "../../components/TrendsArea";
 import Tweet from "../../components/Tweet";
 
 class App extends Component {
-  constructor() {
+  constructor(props) {
     super();
-
     this.state = {
       novoTweet: "",
       tweets: []
@@ -19,9 +18,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-	//salvar o usuario no local storage e mudar no nav.
-	console.log("DidMount");
-    fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`)
+    console.log("DidMount");
+    fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem("TOKEN")}`,
+
+    )
       .then(respostaServidor => respostaServidor.json())
       .then(tweetsServidor => {
         console.log(tweetsServidor);
@@ -46,8 +46,8 @@ class App extends Component {
         .then(tweetProntoServidor => {
           console.log(tweetProntoServidor);
           this.setState({
-			tweets: [tweetProntoServidor, ...this.state.tweets],
-			novoTweet: ""
+            tweets: [tweetProntoServidor, ...this.state.tweets],
+            novoTweet: ""
           });
         });
     }
@@ -57,7 +57,7 @@ class App extends Component {
     return (
       <Fragment>
         <Cabecalho>
-          <NavMenu usuario="@andreposman" />
+          <NavMenu usuario={localStorage.getItem("USUARIO")} />
         </Cabecalho>
         <div className="container">
           <Dashboard>
