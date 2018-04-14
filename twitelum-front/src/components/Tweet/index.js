@@ -31,7 +31,7 @@ class Tweet extends Component {
 
   render() {
     return (
-      <article className="tweet">
+      <article className="tweet" onClick={this.props.handleModal}>
         <div className="tweet__cabecalho">
           <img
             className="tweet__fotoUsuario"

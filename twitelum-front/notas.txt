@@ -64,3 +64,5 @@
         ex: BrowserRouter, Switch, Route, Home -> ordem hierarquica 
 
 - PropTypes: tipar o JS, required etc
+
+- map, reduce, filter, find
