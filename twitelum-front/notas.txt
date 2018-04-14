@@ -5,7 +5,11 @@
         - Standard.JS: boas praticas adotadas por grandes empresas.
         - Anjana Vakil: Learning Functional Programming - JSConf    
         - Non-React Libraries in a React Setup & Rethinking Native App Development
-
+        - https://hackernoon.com/top-10-react-libraries-on-github-ebf730e7ac25
+        - https://facebook.github.io/immutable-js/
+        - Tadeu Zagallo
+        - Elm
+        - https://tableless.com.br/bem-vindo-ao-redux/
 
 /****************************************************************************************/
 
@@ -50,3 +54,13 @@
 - Má pratica usar o construtor para fazer funcionalidades, no maximo a definição de atributos ou configurações. Usar o componentDidMount() por exemplo.
 
 - handler: metodo 
+
+- JS Curto Circuito: MDN operação logica. Testar usando a função Boolean() para fazer validação.
+
+- Conceito: estado + Componente
+
+- Tretas:
+    - One Way Data Flow: O fluxo vai de cima para baixo.
+        ex: BrowserRouter, Switch, Route, Home -> ordem hierarquica 
+
+- PropTypes: tipar o JS, required etc

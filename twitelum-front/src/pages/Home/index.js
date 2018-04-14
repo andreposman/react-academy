@@ -19,12 +19,13 @@ class App extends Component {
 
   componentDidMount() {
     console.log("DidMount");
-    fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem("TOKEN")}`,
-
+    fetch(
+      `http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem(
+        "TOKEN"
+      )}`
     )
       .then(respostaServidor => respostaServidor.json())
       .then(tweetsServidor => {
-        console.log(tweetsServidor);
         this.setState({
           tweets: tweetsServidor
         });
@@ -52,6 +53,22 @@ class App extends Component {
         });
     }
   }
+
+  removeTweet = idTweet => {
+    //setState
+    console.log('ID do tweet: ' + idTweet);
+
+    fetch(`http://localhost:3001/tweets/${idTweet}?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`,
+    {method: 'DELETE'})
+    .then((respostaServidor) => respostaServidor.json())
+    .then((respostaServidor) => {
+      const tweetsAtualizados = this.state.tweets.filter(tweetAtual => tweetAtual._id !== idTweet);
+  
+      this.setState({
+        tweets: tweetsAtualizados
+      });
+    })
+  };
 
   render() {
     return (
@@ -102,10 +119,11 @@ class App extends Component {
                   ? "Escreva alguma coisa..."
                   : ""}
                 {this.state.tweets.map(
-                  (tweetInfo, index) => (
+                  tweetInfo => (
                     <Tweet
+                      key={tweetInfo._id}
+                      removeHandler={() => this.removeTweet(tweetInfo._id)}
                       texto={tweetInfo.conteudo}
-                      key={tweetInfo + index}
                       tweetInfo={tweetInfo}
                     />
                   )

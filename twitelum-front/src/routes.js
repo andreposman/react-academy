@@ -25,9 +25,6 @@ export default class Routes extends Component {
 
 class PrivateRoute extends Component {
   render() {
-    const Component = this.props.component;
-    const props = this.props;
-
     if (autenticado()) {
       return <Route {...this.props} />;
     } else {
