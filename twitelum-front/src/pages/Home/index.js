@@ -1,21 +1,37 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import Cabecalho from "../../components/Cabecalho";
 import NavMenu from "../../components/NavMenu";
 import Dashboard from "../../components/Dashboard";
 import Widget from "../../components/Widget";
 import TrendsArea from "../../components/TrendsArea";
 import Tweet from "../../components/Tweet";
+import Modal from "../../components/Modal";
 
-class App extends Component {
+class Home extends Component {
+
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super();
+
     this.state = {
       novoTweet: "",
       tweets: [],
       tweetAtivo: {}
     };
-    //bind
+    // Código triste da vida
     this.adicionaTweet = this.adicionaTweet.bind(this);
+  }
+
+  componentWillMount() {
+    this.context.store.subscribe(() => {
+      this.setState({
+        tweets: this.context.store.getState()
+      });
+    });
   }
 
   componentDidMount() {
@@ -25,72 +41,94 @@ class App extends Component {
         "TOKEN"
       )}`
     )
-      .then(respostaServidor => respostaServidor.json())
-      .then(tweetsServidor => {
-        this.setState({
-          tweets: tweetsServidor
+      .then(respostaDoServer => respostaDoServer.json())
+      .then(tweetsDoServidor => {
+        // console.log(tweetsDoServidor)
+        this.context.store.dispatch({
+          type: "CARREGA_TWEETS",
+          tweets: tweetsDoServidor
         });
+        // this.setState({
+        //   tweets: tweetsDoServidor
+        // });
       });
   }
 
-  adicionaTweet(e) {
-    e.preventDefault();
+  // Talk: Anjana Vakil: Learning Functional Programming with JavaScript - JSUnconf 2016
+  adicionaTweet(infosDoEvento) {
+    infosDoEvento.preventDefault();
+    // Pegar o value do input
     const novoTweet = this.state.novoTweet;
-    const token = localStorage.getItem("TOKEN");
+
     if (novoTweet) {
-      fetch(`http://localhost:3001/tweets?X-AUTH-TOKEN=${token}`, {
-        method: "POST",
-        body: JSON.stringify({ conteudo: novoTweet })
-      })
-        .then(respostaServidor => {
-          return respostaServidor.json();
+      // Manda o texto e o TOKEN
+      fetch(
+        `http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem(
+          "TOKEN"
+        )}`,
+        { method: "POST", body: JSON.stringify({ conteudo: novoTweet }) }
+      )
+        .then(respostaDoServer => {
+          return respostaDoServer.json();
         })
-        .then(tweetProntoServidor => {
+        .then(tweetProntoDoServer => {
+          console.log(tweetProntoDoServer);
           this.setState({
-            tweets: [tweetProntoServidor, ...this.state.tweets],
-            novoTweet: ""
+            tweets: [tweetProntoDoServer, ...this.state.tweets]
           });
         });
     }
   }
 
-  removeTweet = idTweet => {
-    //setState
-
+  removeTweet = idDoTweet => {
     fetch(
-      `http://localhost:3001/tweets/${idTweet}?X-AUTH-TOKEN=${localStorage.getItem(
+      `http://localhost:3001/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem(
         "TOKEN"
       )}`,
-      { method: "DELETE" }
+      {
+        method: "DELETE"
+      }
     )
-      .then(respostaServidor => respostaServidor.json())
-      .then(respostaServidor => {
+      .then(respostaDoServer => respostaDoServer.json())
+      .then(respostaPronta => {
         const tweetsAtualizados = this.state.tweets.filter(
-          tweetAtual => tweetAtual._id !== idTweet
+          tweetAtual => tweetAtual._id !== idDoTweet
         );
-
         this.setState({
-          tweets: tweetsAtualizados
+          tweets: tweetsAtualizados,
+          tweetAtivo: {}
         });
       });
   };
 
-  abreModalTweet = idTweetModal => {
-    const tweetAtivo = this.state.tweets.find(
-      tweetAtual => tweetAtual._id === idTweetModal
-    );
-    console.log(tweetAtivo);
+  abreModalParaTweet = (idDoTweetQueVaiNoModal, event) => {
+    console.log("idDoTweetQueVaiNoModal", idDoTweetQueVaiNoModal);
+    // Fazer alguma operação no array de tweets
+    const ignoraModal = event.target.closest(".ignoraModal");
+    if (!ignoraModal) {
+      const tweetAtivo = this.state.tweets.find(
+        tweetAtual => tweetAtual._id === idDoTweetQueVaiNoModal
+      );
+      this.setState({
+        tweetAtivo: tweetAtivo
+      });
+    }
+  };
 
-    this.setState({
-      tweetAtivo: tweetAtivo
-    });
+  fechaModal = event => {
+    const isModal = event.target.classList.contains("modal");
+    if (isModal) {
+      this.setState({
+        tweetAtivo: {}
+      });
+    }
   };
 
   render() {
     return (
       <Fragment>
         <Cabecalho>
-          <NavMenu usuario={localStorage.getItem("USUARIO")} />
+          <NavMenu usuario="@omariosouto" />
         </Cabecalho>
         <div className="container">
           <Dashboard>
@@ -117,8 +155,8 @@ class App extends Component {
                 </div>
                 <button
                   type="submit"
-                  className="novoTweet__envia"
                   disabled={this.state.novoTweet.length > 140 ? true : false}
+                  className="novoTweet__envia"
                 >
                   Tweetar
                 </button>
@@ -131,36 +169,43 @@ class App extends Component {
           <Dashboard posicao="centro">
             <Widget>
               <div className="tweetsArea">
-                {this.state.tweets.length === 0
-                  ? "Escreva alguma coisa..."
-                  : ""}
-                {this.state.tweets.map(
-                  //virtual Dom
-                  tweetInfo => (
-                    <Tweet
-                      key={tweetInfo._id}
-                      removeHandler={() => this.removeTweet(tweetInfo._id)}
-                      texto={tweetInfo.conteudo}
-                      handleModal={() => this.abreModalTweet(tweetInfo._id)}
-                      tweetInfo={tweetInfo}
-                    />
-                  )
-                  /*key = 'id' de mapeamento do array*/
+                {this.state.tweets.length === 0 ? (
+                  <div>Mensagem avisando</div>
+                ) : (
+                  ""
                 )}
+                {Boolean(this.state.tweets.length) &&
+                  this.state.tweets.map((tweet, index) => (
+                    <Tweet
+                      key={tweet._id}
+                      removeHandler={() => this.removeTweet(tweet._id)}
+                      tweetInfo={tweet}
+                      handleModal={event =>
+                        this.abreModalParaTweet(tweet._id, event)
+                      }
+                      texto={tweet.conteudo}
+                    />
+                  ))}
               </div>
             </Widget>
           </Dashboard>
         </div>
-        {this.state.tweetAtivo._id && 
-          <Tweet
-            removeHandler={() => this.removeTweet(this.state.tweetAtivo._id)}
-            texto={this.state.tweetAtivo.conteudo}
-            tweetInfo={this.state.tweetAtivo}
-          />
-        }
+
+        <Modal
+          isAberto={this.state.tweetAtivo._id}
+          fechaModal={this.fechaModal}
+        >
+          <Widget>
+            <Tweet
+              removeHandler={() => this.removeTweet(this.state.tweetAtivo._id)}
+              texto={this.state.tweetAtivo.conteudo || ""}
+              tweetInfo={this.state.tweetAtivo}
+            />
+          </Widget>
+        </Modal>
       </Fragment>
     );
   }
 }
 
-export default App;
+export default Home;

@@ -32,7 +32,7 @@ class Tweet extends Component {
   render() {
     return (
       <article className="tweet" onClick={this.props.handleModal}>
-        <div className="tweet__cabecalho">
+        <div className="tweet__cabecalho ignoraModal">
           <img
             className="tweet__fotoUsuario"
             src={this.props.tweetInfo.usuario.foto}
@@ -50,7 +50,7 @@ class Tweet extends Component {
           </a>
         </div>
         <p className="tweet__conteudo">{this.props.texto}</p>
-        <footer className="tweet__footer">
+        <footer className="tweet__footer ignoraModal">
           <button
             className="btnTweet btn--clean"
             onClick={e => this.handleLike(this.props.tweetInfo._id)}

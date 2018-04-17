@@ -13,13 +13,19 @@ import "./assets/css/novoTweet.css";
 import registerServiceWorker from "./registerServiceWorker";
 
 //config do routeamento
-import { BrowserRouter} from "react-router-dom";
-import Routes from './routes'
+import { BrowserRouter } from "react-router-dom";
+import Routes from "./routes";
+
+//coisas do redux
+import { Provider } from "react-redux";
+import store from "./store";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
 registerServiceWorker();

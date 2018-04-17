@@ -10,6 +10,7 @@
         - Tadeu Zagallo
         - Elm
         - https://tableless.com.br/bem-vindo-ao-redux/
+        - https://imasters.com.br/desenvolvimento/software/os-estados-do-flux-uma-nova-arquitetura/
 
 /****************************************************************************************/
 
@@ -66,3 +67,23 @@
 - PropTypes: tipar o JS, required etc
 
 - map, reduce, filter, find
+
+- Treta JS: Bubbly - Ex: um click dentro de um tweet, vai reverberando para os outros elementos pai até chegar no window, que estivessem ouvindo clicks tbm.
+
+- Closest vai de pai em pai até achar a classe e id.
+
+- SSOT: Single Source of Truth.
+
+- Padrão de Dev.: Mensageria.  -> Pub - Sub (PubSub.js)
+
+- Redux: migrando dados cruciais para uma Store.
+
+- Reducer: pegar uma entada de dado, fazer manipulação e dar uma saida
+    - publish === dispatch
+    - subscribe === listener
+
+- APENAS o setState renderiza algo na tela
+
+- Crime deixar a store public
+
+- Só colocar na Store/Redux quando ferir o SSOT 
