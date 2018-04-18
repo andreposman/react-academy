@@ -5,11 +5,11 @@ import NavMenu from "../../components/NavMenu";
 import Dashboard from "../../components/Dashboard";
 import Widget from "../../components/Widget";
 import TrendsArea from "../../components/TrendsArea";
-import Tweet from "../../components/Tweet";
+import Tweet from "../../containers/TweetPadrao";
 import Modal from "../../components/Modal";
+import * as TweetsAPI from "../../apis/TweetsAPI";
 
 class Home extends Component {
-
   static contextTypes = {
     store: PropTypes.object.isRequired
   };
@@ -35,23 +35,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log("DidMount");
-    fetch(
-      `http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem(
-        "TOKEN"
-      )}`
-    )
-      .then(respostaDoServer => respostaDoServer.json())
-      .then(tweetsDoServidor => {
-        // console.log(tweetsDoServidor)
-        this.context.store.dispatch({
-          type: "CARREGA_TWEETS",
-          tweets: tweetsDoServidor
-        });
-        // this.setState({
-        //   tweets: tweetsDoServidor
-        // });
-      });
+    this.context.store.dispatch(TweetsAPI.carrega());
   }
 
   // Talk: Anjana Vakil: Learning Functional Programming with JavaScript - JSUnconf 2016
@@ -60,45 +44,19 @@ class Home extends Component {
     // Pegar o value do input
     const novoTweet = this.state.novoTweet;
 
-    if (novoTweet) {
-      // Manda o texto e o TOKEN
-      fetch(
-        `http://localhost:3001/tweets?X-AUTH-TOKEN=${localStorage.getItem(
-          "TOKEN"
-        )}`,
-        { method: "POST", body: JSON.stringify({ conteudo: novoTweet }) }
-      )
-        .then(respostaDoServer => {
-          return respostaDoServer.json();
-        })
-        .then(tweetProntoDoServer => {
-          console.log(tweetProntoDoServer);
-          this.setState({
-            tweets: [tweetProntoDoServer, ...this.state.tweets]
-          });
-        });
-    }
+    this.context.store.dispatch(TweetsAPI.adiciona(novoTweet))
+
+    this.setState({
+      novoTweet: ''
+    });
   }
 
-  removeTweet = idDoTweet => {
-    fetch(
-      `http://localhost:3001/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem(
-        "TOKEN"
-      )}`,
-      {
-        method: "DELETE"
-      }
-    )
-      .then(respostaDoServer => respostaDoServer.json())
-      .then(respostaPronta => {
-        const tweetsAtualizados = this.state.tweets.filter(
-          tweetAtual => tweetAtual._id !== idDoTweet
-        );
-        this.setState({
-          tweets: tweetsAtualizados,
-          tweetAtivo: {}
-        });
-      });
+  removeTweet = (idDoTweet) => {
+    this.context.store.dispatch(TweetsAPI.remove(idDoTweet))
+
+    this.setState({
+      tweetAtivo: {}
+    })
   };
 
   abreModalParaTweet = (idDoTweetQueVaiNoModal, event) => {

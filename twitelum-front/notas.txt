@@ -87,3 +87,5 @@
 - Crime deixar a store public
 
 - Só colocar na Store/Redux quando ferir o SSOT 
+
+- Closure: {programação funcional}: recebe um valor e os niveis abaixo teram acesso aos dados.
